@@ -1,7 +1,10 @@
 import { NextPage } from "next";
 import LoginForm from "@/app/forms/auth/loginForm";
+import { useCookies } from "react-cookie";
 
 const Login: NextPage = () => {
+  const [cookies, setCookie] = useCookies();
+
   return (
     <div className='bg-white min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -16,7 +19,7 @@ const Login: NextPage = () => {
       </div>
       <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-          <LoginForm />
+          <LoginForm setCookie={setCookie} />
         </div>
       </div>
     </div>

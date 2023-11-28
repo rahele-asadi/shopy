@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+
 import RegisterForm from "@/app/forms/auth/registerForm";
 
 const Register: NextPage = () => {
