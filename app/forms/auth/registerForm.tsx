@@ -6,10 +6,9 @@ import { FC } from "react";
 import { withFormik } from "formik";
 import { useRouter } from "next/router";
 import * as yup from "yup";
+import ValidationError from "@/app/exception/validationError";
 
-interface RegisterFormProps {
-  name?: string;
-}
+interface RegisterFormProps {}
 
 const registerFormValidationSchema = yup.object().shape({
   name: yup.string().required().min(3),
@@ -22,15 +21,23 @@ const RegisterForm: FC<RegisterFormProps> = () => {
 
   const FormWithFormik = withFormik<RegisterFormProps, RegisterFormValuesInterface>({
     mapPropsToValues: (props) => ({
-      name: props.name ?? "",
+      name: "",
       email: "",
       password: "",
     }),
     validationSchema: registerFormValidationSchema,
-    handleSubmit: async (values) => {
-      const res = await callApi().post("/auth/register", values);
-      if (res.status == 201) {
-        router.push("/auth/login");
+    handleSubmit: async (values, { setFieldError }) => {
+      try {
+        const res = await callApi().post("/auth/register", values);
+        if (res.status == 201) {
+          router.push("/auth/login");
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          Object.entries(error.messages).forEach(([key, value]) =>
+            setFieldError(key, value as string),
+          );
+        }
       }
     },
   })(InnerRegisterForm);

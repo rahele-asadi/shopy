@@ -1,5 +1,6 @@
 import InnerLoginForm from "@/app/components/auth/innerLoginForm";
 import { LoginFormValuesInterface } from "@/app/contracts/auth";
+import ValidationError from "@/app/exception/validationError";
 import callApi from "@/app/helpers/callApi";
 
 import { withFormik } from "formik";
@@ -20,15 +21,23 @@ const LoginForm = withFormik<LoginFormProps, LoginFormValuesInterface>({
     password: "",
   }),
   validationSchema: loginFormValidationSchema,
-  handleSubmit: async (values, { props }) => {
-    const res = await callApi().post("/auth/login", values);
-    if (res.status === 200) {
-      props.setCookie("shopy-token", res.data.token, {
-        maxAga: 3600 * 24,
-        domain: "localhost",
-        path: "/",
-        sameSite: "lax",
-      });
+  handleSubmit: async (values, { props, setFieldError }) => {
+    try {
+      const res = await callApi().post("/auth/login", values);
+      if (res.status === 200) {
+        props.setCookie("shopy-token", res.data.token, {
+          maxAga: 3600 * 24,
+          domain: "localhost",
+          path: "/",
+          sameSite: "lax",
+        });
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        Object.entries(error.messages).forEach(([key, value]) =>
+          setFieldError(key, value as string),
+        );
+      }
     }
   },
 })(InnerLoginForm);
