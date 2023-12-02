@@ -1,6 +1,7 @@
 import InnerVerifyForm from "@/app/components/auth/innerVerifyForm";
 import { VerifyFormValuesInterface } from "@/app/contracts/auth";
 import ValidationError from "@/app/exception/validationError";
+import { saveLoginToken } from "@/app/helpers/auth";
 import callApi from "@/app/helpers/callApi";
 
 import { withFormik } from "formik";
@@ -31,6 +32,7 @@ const VerifyForm = withFormik<VerifyFormProps, VerifyFormValuesInterface>({
     try {
       const res = await callApi().post("/auth/login/verify-phone", values);
       if (res.status === 200) {
+        saveLoginToken(res.data?.user?.token);
         props.router.push("/");
         props.clearToken();
       }

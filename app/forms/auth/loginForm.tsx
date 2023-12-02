@@ -19,7 +19,6 @@ const loginFormValidationSchema = yup.object().shape({
 });
 
 interface LoginFormProps {
-  setCookie: any;
   router: any;
   setToken: (token: string) => void;
 }
@@ -35,13 +34,6 @@ const LoginForm = withFormik<LoginFormProps, LoginFormValuesInterface>({
     try {
       const res = await callApi().post("/auth/login", values);
       if (res.status === 200) {
-        // when token set in cookie
-        // props.setCookie("shopy-verify-token", res.data.token, {
-        //   maxAga: 3600 * 24,
-        //   domain: "localhost",
-        //   path: "/",
-        //   sameSite: "lax",
-        // });
         props.setToken(res.data.token);
         props.router.push("/auth/login/verify");
       }
