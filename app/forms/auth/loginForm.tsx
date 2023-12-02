@@ -6,31 +6,44 @@ import callApi from "@/app/helpers/callApi";
 import { withFormik } from "formik";
 import * as yup from "yup";
 
+const phoneRegExp = /^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/;
+
 const loginFormValidationSchema = yup.object().shape({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(7),
+  phone: yup
+    .string()
+    .required()
+    .min(11)
+    .matches(phoneRegExp, "Phone number format is not correct"),
+  // email: yup.string().required().email(),
+  // password: yup.string().required().min(7),
 });
 
 interface LoginFormProps {
   setCookie: any;
+  router: any;
+  setToken: (token: string) => void;
 }
 
 const LoginForm = withFormik<LoginFormProps, LoginFormValuesInterface>({
   mapPropsToValues: (props) => ({
-    email: "",
-    password: "",
+    phone: "",
+    // email: "",
+    // password: "",
   }),
   validationSchema: loginFormValidationSchema,
   handleSubmit: async (values, { props, setFieldError }) => {
     try {
       const res = await callApi().post("/auth/login", values);
       if (res.status === 200) {
-        props.setCookie("shopy-token", res.data.token, {
-          maxAga: 3600 * 24,
-          domain: "localhost",
-          path: "/",
-          sameSite: "lax",
-        });
+        // when token set in cookie
+        // props.setCookie("shopy-verify-token", res.data.token, {
+        //   maxAga: 3600 * 24,
+        //   domain: "localhost",
+        //   path: "/",
+        //   sameSite: "lax",
+        // });
+        props.setToken(res.data.token);
+        props.router.push("/auth/login/verify");
       }
     } catch (error) {
       if (error instanceof ValidationError) {

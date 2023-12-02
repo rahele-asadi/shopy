@@ -1,9 +1,19 @@
 import { NextPage } from "next";
-import LoginForm from "@/app/forms/auth/loginForm";
+import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
+
+import LoginForm from "@/app/forms/auth/loginForm";
+import { useAppDispatch } from "@/app/hooks";
+import { updatePhoneVerifyToken } from "@/app/store/auth";
 
 const Login: NextPage = () => {
   const [cookies, setCookie] = useCookies();
+  const router = useRouter();
+
+  const dispatch = useAppDispatch();
+  const setPhoneVerifyToken = (token: string) => {
+    dispatch(updatePhoneVerifyToken(token));
+  };
 
   return (
     <div className='bg-white min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
@@ -19,7 +29,11 @@ const Login: NextPage = () => {
       </div>
       <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
         <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-          <LoginForm setCookie={setCookie} />
+          <LoginForm
+            setCookie={setCookie}
+            router={router}
+            setToken={setPhoneVerifyToken}
+          />
         </div>
       </div>
     </div>
