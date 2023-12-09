@@ -33,7 +33,7 @@ const VerifyForm = withFormik<VerifyFormProps, VerifyFormValuesInterface>({
       const res = await callApi().post("/auth/login/verify-phone", values);
       if (res.status === 200) {
         saveLoginToken(res.data?.user?.token);
-        props.router.push("/");
+        props.router.push("/panel");
         props.clearToken();
       }
     } catch (error) {

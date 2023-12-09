@@ -1,11 +1,12 @@
-import { NextPage } from "next";
 import VerifyForm from "@/app/forms/auth/verifyForm";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { selectPhoneVerifyToken, updatePhoneVerifyToken } from "@/app/store/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { NextPageWithLayout } from "@/pages/_app";
+import GuestLayout from "@/app/components/layout/guestPanelLayout";
 
-const VerifyLogin: NextPage = () => {
+const VerifyLogin: NextPageWithLayout = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -47,5 +48,7 @@ const VerifyLogin: NextPage = () => {
     </div>
   );
 };
+
+VerifyLogin.getLayout = (page) => <GuestLayout>{page}</GuestLayout>;
 
 export default VerifyLogin;
