@@ -12,7 +12,8 @@ const useAuth = () => {
 
   const { data, error } = useSWR("my-user", () => {
     return callApi().get("/user", {
-      headers: { authorization: cookie.get("shopy-login-token") },
+      // this line is needed for without httponly flag
+      // headers: { authorization: cookie.get("shopy_login_token") },
     });
   });
 
