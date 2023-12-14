@@ -17,7 +17,7 @@ const useAuth = () => {
     });
   });
 
-  dispatch(updateUser(data?.data.user));
+  dispatch(updateUser(data?.data?.user));
 
   return { user: data?.data?.user, error, loading: !data && !error };
 };

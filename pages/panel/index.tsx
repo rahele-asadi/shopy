@@ -1,6 +1,6 @@
 import UserPanelLayout from "@/app/components/layout/userPanelLayout";
 import { NextPageWithLayout } from "../_app";
-import UserInfo from "@/app/components/panel/userInfo";
+import UserInfo from "@/app/components/adminPanel/userInfo";
 
 const Panel: NextPageWithLayout = () => {
   return (
