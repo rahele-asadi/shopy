@@ -1,6 +1,6 @@
 import { Form, FormikProps } from "formik";
 
-import Input from "../common/input";
+import Input from "../common/form";
 import { LoginFormValuesInterface } from "@/app/contracts/auth";
 
 const InnerLoginForm = (props: FormikProps<LoginFormValuesInterface>) => {

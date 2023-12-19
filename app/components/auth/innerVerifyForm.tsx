@@ -1,5 +1,5 @@
 import { Form } from "formik";
-import Input from "../common/input";
+import Input from "../common/form";
 
 const InnerVerifyForm = () => {
   return (
