@@ -1,14 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { FolderIcon, HomeIcon, UsersIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 interface Props {
@@ -100,7 +92,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
                       <Link
                         key={item.name}
                         href={item.href}
-                        onClick={() => setCurrentItem(item.current)}
+                        onClick={() => setCurrentItem(item.name)}
                         className={`${
                           item.current
                             ? "bg-gray-900 text-white"
@@ -145,7 +137,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  onClick={() => setCurrentItem(item.current)}
+                  onClick={() => setCurrentItem(item.name)}
                   className={`${
                     item.current
                       ? "bg-gray-900 text-white"
