@@ -3,6 +3,7 @@ import { Form, FormikProps } from "formik";
 import Input from "../../common/form/input";
 import { CreateFormValuesInterface } from "@/app/contracts/admin";
 import Textarea from "../../common/form/textarea";
+import SelectBox from "../../common/form/selectBox";
 
 const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) => {
   return (
@@ -13,6 +14,18 @@ const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) =
         </div>
         <div className='sm:col-span-2'>
           <Input name='price' id='price' label='قیمت محصول' />
+        </div>
+        <div className='sm:col-span-2'>
+          <SelectBox
+            name='product_id'
+            id='product_id'
+            label='نوع محصول'
+            options={[
+              { label: "Labtop", value: "1" },
+              { label: "Mobile", value: "2" },
+              { label: "Tablet", value: "3" },
+            ]}
+          />
         </div>
         <div className='sm:col-span-4'>
           <Textarea
