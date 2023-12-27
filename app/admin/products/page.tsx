@@ -1,16 +1,17 @@
-import { useRouter } from "next/router";
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
 // import Link from "next/link";
 
-import AdminPanelLayout from "@/app/components/layout/adminPanelLayout";
-import { NextPageWithLayout } from "../../_app";
 import Modal from "@/app/components/common/modal";
 import CreateProductForm from "@/app/forms/admin/products/createProductForm";
 
-const Products: NextPageWithLayout = () => {
+const Products = () => {
   // another way to show modal is using of state
   // const [openCreateProduct, setOpenCreateProduct] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const createModal = searchParams?.has("create-product");
 
   const setOpenCreateProduct = (show = true) => {
     router.push(`/admin/products${show ? "?create-product" : ""}`);
@@ -21,7 +22,7 @@ const Products: NextPageWithLayout = () => {
       {/* this line use when handle modal with state */}
       {/* {openCreateProduct && <CreateModal setOpenCreateProduct={setOpenCreateProduct} />} */}
 
-      {"create-product" in router.query && (
+      {createModal && (
         <Modal setShow={() => setOpenCreateProduct(false)}>
           <div className='w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all'>
             <h2 className='text-xl font-bold leading-tight text-gray-800 py-5 px-6  border-b'>
@@ -115,7 +116,5 @@ const Products: NextPageWithLayout = () => {
     </>
   );
 };
-
-Products.getLayout = (page) => <AdminPanelLayout>{page}</AdminPanelLayout>;
 
 export default Products;

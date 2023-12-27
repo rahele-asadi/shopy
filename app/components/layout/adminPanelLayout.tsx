@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+"use client";
+import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 
 import useAuth from "@/app/hooks/useAuth";
