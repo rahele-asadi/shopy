@@ -1,3 +1,4 @@
+"use client";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FolderIcon, HomeIcon, UsersIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -31,7 +32,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
       current: currentItem == "Products",
     },
   ];
-
+  console.log(currentItem);
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>

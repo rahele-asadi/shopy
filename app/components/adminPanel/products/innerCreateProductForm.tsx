@@ -5,6 +5,7 @@ import { CreateFormValuesInterface } from "@/app/contracts/admin";
 import Textarea from "../../common/form/textarea";
 import SelectBox from "../../common/form/selectBox";
 
+// TODO: handle type of props
 const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) => {
   return (
     <Form>
@@ -17,10 +18,11 @@ const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) =
         </div>
         <div className='sm:col-span-2'>
           <SelectBox
-            name='product_id'
-            id='product_id'
+            name='category'
+            id='category'
             label='نوع محصول'
             options={[
+              { label: "انتخاب کنید", value: "" },
               { label: "Labtop", value: "1" },
               { label: "Mobile", value: "2" },
               { label: "Tablet", value: "3" },
