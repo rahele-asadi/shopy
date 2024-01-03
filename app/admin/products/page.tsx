@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 // import Link from "next/link";
 
@@ -9,24 +9,35 @@ import CreateProductForm from "@/app/forms/admin/products/createProductForm";
 import { getProducts } from "@/app/services/products";
 import { Product } from "@/app/contracts/admin";
 import LoadingBox from "@/app/components/common/loadingBox";
+import Pagination from "@/app/components/common/pagination";
+import EmptyBox from "@/app/components/common/emptyList";
 
 const Products = () => {
   // another way to show modal is using of state
   // const [openCreateProduct, setOpenCreateProduct] = useState(false);
   const [page, setPage] = useState(1);
 
-  const { data: products, error } = useSWR({ url: "/admin/products", page }, getProducts);
-  const productsLoading = !products && !error;
+  const { data, error } = useSWR({ url: "/admin/products", page }, getProducts);
+  const productsLoading = !data && !error;
 
-  console.log(products);
+  console.log(data);
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const createModal = searchParams?.has("create-product");
+  let pageQuery: any = searchParams?.get("page");
 
   const setOpenCreateProduct = (show = true) => {
     router.push(`/admin/products${show ? "?create-product" : ""}`);
   };
+
+  const onPageChangeHandler = ({ selected }: { selected: number }) => {
+    router.push(`/admin/products?page=${selected + 1}`);
+  };
+
+  useEffect(() => {
+    setPage(parseInt(pageQuery ?? 1));
+  }, [pageQuery]);
 
   return (
     <>
@@ -69,7 +80,7 @@ const Products = () => {
           <div className='mt-7 overflow-x-auto'>
             {productsLoading ? (
               <LoadingBox />
-            ) : (
+            ) : data?.products?.length >= 1 ? (
               <table className='w-full whitespace-nowrap'>
                 <thead>
                   <tr>
@@ -87,7 +98,7 @@ const Products = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.map((product: Product) => (
+                  {data?.products?.map((product: Product) => (
                     <tr
                       key={product.id}
                       tabIndex={0}
@@ -126,9 +137,24 @@ const Products = () => {
                       </td>
                     </tr>
                   ))}
-                  {/* <tr className='h-3'></tr> */}
                 </tbody>
               </table>
+            ) : (
+              <EmptyBox
+                title='محصولی وجود ندارد.'
+                description='لیست محصول خالی می باشد می توانید محصول جدید اضافه کنید.'
+              />
+            )}
+          </div>
+          <div className='p-4 my-2 flex items-center justify-center '>
+            {data?.total_page > 1 && (
+              <Pagination
+                page={page}
+                pageCount={data?.total_page}
+                onPageChangeHandler={onPageChangeHandler}
+                pageRangeDisplayed={4}
+                marginPagesDisplayed={2}
+              />
             )}
           </div>
         </div>

@@ -6,9 +6,10 @@ interface GetProductProps {
   per_page?: number;
 }
 
-export async function getProducts({ page = 1, per_page = 10 }: GetProductProps) {
+export async function getProducts({ page = 1, per_page = 5 }: GetProductProps) {
   const res = await callApi().get(`/products?page=${page}&per_page=${per_page}`);
-  return res?.data?.data;
+
+  return { products: res?.data?.data, total_page: res?.data?.total_page };
 }
 
 export default async function createProduct(values: CreateFormValuesInterface) {
