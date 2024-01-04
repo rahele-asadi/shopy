@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";
 import { CreateFormValuesInterface } from "@/app/contracts/admin";
 import InnerCreateProductForm from "@/app/components/adminPanel/products/innerCreateProductForm";
 import ValidationError from "@/app/exception/validationError";
-import createProduct from "@/app/services/products";
+import { createProduct } from "@/app/services/products";
 import { toast } from "react-toastify";
 
 interface CreateFormProps {

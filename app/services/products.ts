@@ -12,9 +12,13 @@ export async function getProducts({ page = 1, per_page = 5 }: GetProductProps) {
   return { products: res?.data?.data, total_page: res?.data?.total_page };
 }
 
-export default async function createProduct(values: CreateFormValuesInterface) {
+export async function createProduct(values: CreateFormValuesInterface) {
   return await callApi().post("/products/create", {
     ...values,
     body: values.description,
   });
+}
+
+export async function deleteProduct(product_id: number) {
+  return await callApi().post(`/products/${product_id}/delete`, {});
 }

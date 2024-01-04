@@ -11,13 +11,14 @@ import { Product } from "@/app/contracts/admin";
 import LoadingBox from "@/app/components/common/loadingBox";
 import Pagination from "@/app/components/common/pagination";
 import EmptyBox from "@/app/components/common/emptyList";
+import ProductsListItem from "@/app/components/adminPanel/products/productsListItem";
 
 const Products = () => {
   // another way to show modal is using of state
   // const [openCreateProduct, setOpenCreateProduct] = useState(false);
   const [page, setPage] = useState(1);
 
-  const { data, error } = useSWR({ url: "/admin/products", page }, getProducts);
+  const { data, error, mutate } = useSWR({ url: "/admin/products", page }, getProducts);
   const productsLoading = !data && !error;
 
   console.log(data);
@@ -35,6 +36,7 @@ const Products = () => {
     router.push(`/admin/products?page=${selected + 1}`);
   };
 
+  // when products page refreshed this code caused number of pagination not change
   useEffect(() => {
     setPage(parseInt(pageQuery ?? 1));
   }, [pageQuery]);
@@ -99,43 +101,11 @@ const Products = () => {
                 </thead>
                 <tbody>
                   {data?.products?.map((product: Product) => (
-                    <tr
+                    <ProductsListItem
+                      product={product}
                       key={product.id}
-                      tabIndex={0}
-                      className='focus:outline-none h-16 border border-gray-100 rounded'
-                    >
-                      <td>
-                        <div className='flex items-center pr-5'>
-                          <p className='text-base font-medium leading-none text-gray-700 mr-2'>
-                            {product.id}
-                          </p>
-                        </div>
-                      </td>
-                      <td className='pl-3'>
-                        <div className='flex items-center'>
-                          <p className='text-sm leading-none text-gray-600 ml-2'>
-                            {product.title}
-                          </p>
-                        </div>
-                      </td>
-                      <td className='pl-3'>
-                        <div className='flex items-center'>
-                          <p className='text-sm leading-none text-gray-600 ml-2'>
-                            {product.body}
-                          </p>
-                        </div>
-                      </td>
-                      <td className='pl-3'>
-                        <button className='focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none'>
-                          ویرایش
-                        </button>
-                      </td>
-                      <td className=''>
-                        <button className='py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded'>
-                          حذف
-                        </button>
-                      </td>
-                    </tr>
+                      mutateProducts={mutate}
+                    />
                   ))}
                 </tbody>
               </table>
