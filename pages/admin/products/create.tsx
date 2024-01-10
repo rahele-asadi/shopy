@@ -19,7 +19,10 @@ const CreateProduct: NextPageWithLayout = () => {
           <h2 className='text-xl font-bold leading-tight text-gray-800 py-5 px-6  border-b'>
             ساخت محصول
           </h2>
-          <CreateProductForm setOpenCreateProduct={setOpenCreateProduct} />
+          <CreateProductForm
+            router={router}
+            handleClose={() => setOpenCreateProduct(false)}
+          />
         </div>
       </div>
     </>

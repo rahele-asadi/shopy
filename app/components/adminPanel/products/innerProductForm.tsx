@@ -1,12 +1,19 @@
 import { Form, FormikProps } from "formik";
 
 import Input from "../../common/form/input";
-import { CreateFormValuesInterface } from "@/app/contracts/admin";
+import { ProductFormValuesInterface } from "@/app/contracts/admin/types";
 import Textarea from "../../common/form/textarea";
 import SelectBox from "../../common/form/selectBox";
+import { Product } from "@/app/contracts/admin/types";
 
-// TODO: handle type of props
-const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) => {
+type Props = FormikProps<ProductFormValuesInterface> & {
+  product?: Product;
+  handleClose: () => void;
+};
+
+const InnerProductForm = (props: Props) => {
+  console.log(props.product);
+
   return (
     <Form>
       <div className='p-5 mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-4 sm:gap-x-8'>
@@ -46,11 +53,11 @@ const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) =
           type='submit'
           className='ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-700'
         >
-          ایجاد محصول
+          {props?.product ? "ویرایش محصول" : "ایجاد محصول"}
         </button>
         <button
           type='button'
-          onClick={() => {}}
+          onClick={props.handleClose}
           className='inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
         >
           انصراف
@@ -60,4 +67,4 @@ const InnerCreateProductForm = (props: FormikProps<CreateFormValuesInterface>) =
   );
 };
 
-export default InnerCreateProductForm;
+export default InnerProductForm;

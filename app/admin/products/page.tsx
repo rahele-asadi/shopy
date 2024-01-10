@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Modal from "@/app/components/common/modal";
 import CreateProductForm from "@/app/forms/admin/products/createProductForm";
 import { getProducts } from "@/app/services/products";
-import { Product } from "@/app/contracts/admin";
+import { Product } from "@/app/contracts/admin/types";
 import LoadingBox from "@/app/components/common/loadingBox";
 import Pagination from "@/app/components/common/pagination";
 import EmptyBox from "@/app/components/common/emptyList";
@@ -52,7 +52,10 @@ const Products = () => {
             <h2 className='text-xl font-bold leading-tight text-gray-800 py-5 px-6  border-b'>
               ساخت محصول
             </h2>
-            <CreateProductForm setOpenCreateProduct={setOpenCreateProduct} />
+            <CreateProductForm
+              mutateProducts={mutate}
+              handleClose={() => setOpenCreateProduct(false)}
+            />
           </div>
         </Modal>
       )}

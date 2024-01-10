@@ -1,10 +1,11 @@
-import { Product } from "@/app/contracts/admin";
+import { Product } from "@/app/contracts/admin/types";
 import { useState } from "react";
 import DeleteConfirmationModal from "../../common/deleteConfirmationModal";
 import { deleteProduct } from "@/app/services/products";
 import ValidationError from "@/app/exception/validationError";
 import { toast } from "react-toastify";
 import { KeyedMutator } from "swr";
+import EditProductModal from "./editProductModal";
 
 interface Props {
   product: Product;
@@ -16,6 +17,9 @@ interface Props {
 
 const ProductsListItem = ({ product, mutateProducts }: Props) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+
+  const handleCloseEditModal = () => setOpenEditModal(false);
 
   const deleteHandler = async () => {
     try {
@@ -46,6 +50,15 @@ const ProductsListItem = ({ product, mutateProducts }: Props) => {
           />
         )}
       </td>
+      <td className='hidden'>
+        {openEditModal && (
+          <EditProductModal
+            product={product}
+            handleClose={handleCloseEditModal}
+            mutateProducts={mutateProducts}
+          />
+        )}
+      </td>
       <td>
         <div className='flex items-center pr-5'>
           <p className='text-base font-medium leading-none text-gray-700 mr-2'>
@@ -64,7 +77,10 @@ const ProductsListItem = ({ product, mutateProducts }: Props) => {
         </div>
       </td>
       <td className='pl-3'>
-        <button className='focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none'>
+        <button
+          onClick={() => setOpenEditModal(true)}
+          className='focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none'
+        >
           ویرایش
         </button>
       </td>
