@@ -9,7 +9,7 @@ const CreateProduct: NextPageWithLayout = () => {
   const router = useRouter();
 
   const setOpenCreateProduct = (show = true) => {
-    router.push(`/admin/products${show ? "?create-product" : ""}`);
+    router?.push(`/admin/products${show ? "?create-product" : ""}`);
   };
 
   return (
@@ -29,6 +29,8 @@ const CreateProduct: NextPageWithLayout = () => {
   );
 };
 
-CreateProduct.getLayout = (page) => <AdminPanelLayout>{page}</AdminPanelLayout>;
+CreateProduct.getLayout = (page) => (
+  <AdminPanelLayout permission='add_new_product'>{page}</AdminPanelLayout>
+);
 
 export default CreateProduct;

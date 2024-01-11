@@ -12,6 +12,8 @@ import LoadingBox from "@/app/components/common/loadingBox";
 import Pagination from "@/app/components/common/pagination";
 import EmptyBox from "@/app/components/common/emptyList";
 import ProductsListItem from "@/app/components/adminPanel/products/productsListItem";
+import { useAppSelector } from "@/app/hooks";
+import { selectUser } from "@/app/store/auth";
 
 const Products = () => {
   // another way to show modal is using of state
@@ -21,8 +23,7 @@ const Products = () => {
   const { data, error, mutate } = useSWR({ url: "/admin/products", page }, getProducts);
   const productsLoading = !data && !error;
 
-  console.log(data);
-
+  const user = useAppSelector(selectUser);
   const router = useRouter();
   const searchParams = useSearchParams();
   const createModal = searchParams?.has("create-product");
@@ -63,14 +64,16 @@ const Products = () => {
         <div className='bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10'>
           <div className='sm:flex items-center justify-between'>
             <h1 className='font-bold text-2xl text-gray-800'>لیست محصول</h1>
-            <button
-              onClick={() => setOpenCreateProduct(true)}
-              className='focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded'
-            >
-              <p className='text-sm font-medium leading-none text-white'>
-                اضافه کردن محصول
-              </p>
-            </button>
+            {user.canAccess("add_new_product") && (
+              <button
+                onClick={() => setOpenCreateProduct(true)}
+                className='focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded'
+              >
+                <p className='text-sm font-medium leading-none text-white'>
+                  اضافه کردن محصول
+                </p>
+              </button>
+            )}
             {/* Link use for modal routing(another way for handle modal) */}
             {/* <Link
               href={"/admin/products?create-product"}

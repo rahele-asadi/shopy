@@ -1,19 +1,25 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
+import { toast } from "react-toastify";
 
 import useAuth from "@/app/hooks/useAuth";
 import AdminSidebar from "../adminPanel/layout/sidebar";
 import AdminHeader from "../adminPanel/layout/header";
+import User from "@/app/models/user";
 
 interface Props {
   children: ReactNode;
+  permission?: string;
 }
 
-const AdminPanelLayout = ({ children }: Props) => {
+const AdminPanelLayout = ({ children, permission }: Props) => {
   const router = useRouter();
-  const { user, error, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const { user: userData, error, loading } = useAuth();
+
+  const user = new User(userData);
 
   if (loading) return <h1>Loading ...</h1>;
 
@@ -23,10 +29,13 @@ const AdminPanelLayout = ({ children }: Props) => {
     return <></>;
   }
 
-  // if(! user?.is_admin ) {
-  //     router.push('/')
-  //     return <></>;
-  // }
+  if (permission) {
+    if (!user.canAccess(permission)) {
+      toast.error("کاربر اجازه دسترسی به این قسمت را ندارد.");
+      router.push("/admin");
+      return <span>loading...</span>;
+    }
+  }
 
   return (
     <>
