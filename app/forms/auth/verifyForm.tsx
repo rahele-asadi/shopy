@@ -4,12 +4,13 @@ import ValidationError from "@/app/exception/validationError";
 import { saveLoginToken } from "@/app/helpers/auth";
 import callApi from "@/app/helpers/callApi";
 
-import { withFormik } from "formik";
 import * as yup from "yup";
+import { withFormik } from "formik";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface VerifyFormProps {
   token?: string;
-  router: any;
+  router: AppRouterInstance;
   clearToken: () => void;
 }
 
@@ -33,7 +34,7 @@ const VerifyForm = withFormik<VerifyFormProps, VerifyFormValuesInterface>({
       const res = await callApi().post("/auth/login/verify-phone", values);
       if (res.status === 200) {
         saveLoginToken(res.data?.user?.token);
-        props.router.push("/panel");
+        props.router.push("/admin");
         props.clearToken();
       }
     } catch (error) {

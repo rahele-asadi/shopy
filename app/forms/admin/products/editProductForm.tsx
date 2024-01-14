@@ -1,5 +1,7 @@
 import { withFormik } from "formik";
 import { toast } from "react-toastify";
+import { KeyedMutator } from "swr";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import { ProductFormValuesInterface } from "@/app/contracts/admin/types";
 import InnerProductForm from "@/app/components/adminPanel/products/innerProductForm";
@@ -7,12 +9,10 @@ import ValidationError from "@/app/exception/validationError";
 import { updateProduct } from "@/app/services/products";
 import { Product } from "@/app/contracts/admin/types";
 import { ProductValidationSchema } from "@/app/contracts/admin/validationSchema";
-import { NextRouter } from "next/router";
-import { KeyedMutator } from "swr";
 
 interface EditFormProps {
   product: Product;
-  router?: NextRouter;
+  router?: AppRouterInstance;
   handleClose: () => void;
   mutateProducts?: KeyedMutator<{
     products: any;

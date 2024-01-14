@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
+"use client";
+import { useRouter } from "next/navigation";
 
-import { NextPageWithLayout } from "../../_app";
-import AdminPanelLayout from "@/app/components/layout/adminPanelLayout";
 import CreateProductForm from "@/app/forms/admin/products/createProductForm";
 
-// this page is for modal routing
-const CreateProduct: NextPageWithLayout = () => {
+const CreateProduct = () => {
   const router = useRouter();
 
   const setOpenCreateProduct = (show = true) => {
@@ -28,9 +26,5 @@ const CreateProduct: NextPageWithLayout = () => {
     </>
   );
 };
-
-CreateProduct.getLayout = (page) => (
-  <AdminPanelLayout permission='add_new_product'>{page}</AdminPanelLayout>
-);
 
 export default CreateProduct;

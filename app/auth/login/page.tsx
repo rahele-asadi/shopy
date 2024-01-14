@@ -1,12 +1,11 @@
-import { useRouter } from "next/router";
+"use client";
+import { useRouter } from "next/navigation";
 
 import LoginForm from "@/app/forms/auth/loginForm";
 import { useAppDispatch } from "@/app/hooks";
 import { updatePhoneVerifyToken } from "@/app/store/auth";
-import { NextPageWithLayout } from "@/pages/_app";
-import GuestLayout from "@/app/components/layout/guestPanelLayout";
 
-const Login: NextPageWithLayout = () => {
+const Login = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -34,7 +33,5 @@ const Login: NextPageWithLayout = () => {
     </div>
   );
 };
-
-Login.getLayout = (page) => <GuestLayout>{page}</GuestLayout>;
 
 export default Login;

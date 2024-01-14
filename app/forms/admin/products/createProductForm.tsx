@@ -1,4 +1,3 @@
-import { NextRouter } from "next/router";
 import { KeyedMutator } from "swr";
 import { withFormik } from "formik";
 import { toast } from "react-toastify";
@@ -8,10 +7,11 @@ import InnerProductForm from "@/app/components/adminPanel/products/innerProductF
 import ValidationError from "@/app/exception/validationError";
 import { createProduct } from "@/app/services/products";
 import { ProductValidationSchema } from "@/app/contracts/admin/validationSchema";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface CreateFormProps {
   handleClose: () => void;
-  router?: NextRouter;
+  router?: AppRouterInstance;
   mutateProducts?: KeyedMutator<{
     products: any;
     total_page: any;

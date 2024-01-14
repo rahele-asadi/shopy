@@ -1,5 +1,6 @@
+"use client";
 import useAuth from "@/app/hooks/useAuth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 interface Props {
@@ -11,8 +12,8 @@ const GuestLayout = ({ children }: Props) => {
   const { user } = useAuth();
 
   if (user) {
-    router.push("/panel");
-    return <></>;
+    router.push("/admin");
+    return <>loading....</>;
   }
 
   return <div>{children}</div>;

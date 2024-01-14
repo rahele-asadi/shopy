@@ -4,7 +4,7 @@ import callApi from "@/app/helpers/callApi";
 
 import { FC } from "react";
 import { withFormik } from "formik";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import ValidationError from "@/app/exception/validationError";
 

@@ -3,8 +3,9 @@ import { LoginFormValuesInterface } from "@/app/contracts/auth";
 import ValidationError from "@/app/exception/validationError";
 import callApi from "@/app/helpers/callApi";
 
-import { withFormik } from "formik";
 import * as yup from "yup";
+import { withFormik } from "formik";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const phoneRegExp = /^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/;
 
@@ -19,7 +20,7 @@ const loginFormValidationSchema = yup.object().shape({
 });
 
 interface LoginFormProps {
-  router: any;
+  router: AppRouterInstance;
   setToken: (token: string) => void;
 }
 

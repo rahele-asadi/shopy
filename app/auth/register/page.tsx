@@ -1,8 +1,7 @@
+"use client";
 import RegisterForm from "@/app/forms/auth/registerForm";
-import { NextPageWithLayout } from "../_app";
-import GuestLayout from "@/app/components/layout/guestPanelLayout";
 
-const Register: NextPageWithLayout = () => {
+const Register = () => {
   return (
     <div className='min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
       <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -23,7 +22,5 @@ const Register: NextPageWithLayout = () => {
     </div>
   );
 };
-
-Register.getLayout = (page) => <GuestLayout>{page}</GuestLayout>;
 
 export default Register;

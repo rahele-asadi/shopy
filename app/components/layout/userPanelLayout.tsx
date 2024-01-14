@@ -1,6 +1,7 @@
+"use client";
 import { ReactNode } from "react";
 import useAuth from "@/app/hooks/useAuth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: ReactNode;
@@ -19,7 +20,6 @@ const UserPanelLayout = ({ children }: Props) => {
     return <></>;
   }
 
-  console.log(user);
   return <div className='text-2xl'>{children}</div>;
 };
 

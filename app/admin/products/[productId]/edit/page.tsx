@@ -1,19 +1,14 @@
+"use client";
 import useSWR from "swr";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-import { NextPageWithLayout } from "../../../_app";
-import AdminPanelLayout from "@/app/components/layout/adminPanelLayout";
 import { getSingleProduct } from "@/app/services/products";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import ValidationError from "@/app/exception/validationError";
-
 import EditProductForm from "@/app/forms/admin/products/editProductForm";
 
-// this page is for modal routing
-const EditProduct: NextPageWithLayout = ({
-  productId,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const EditProduct = ({ params }: any) => {
+  const { productId } = params;
   const router = useRouter();
 
   const handleClose = () => {
@@ -53,17 +48,6 @@ const EditProduct: NextPageWithLayout = ({
       </div>
     </>
   );
-};
-
-EditProduct.getLayout = (page) => <AdminPanelLayout>{page}</AdminPanelLayout>;
-
-// Because of in first render query not run, and query object is empty we get query from server side
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  return {
-    props: {
-      productId: query?.productId,
-    },
-  };
 };
 
 export default EditProduct;

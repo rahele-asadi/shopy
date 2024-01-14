@@ -1,15 +1,16 @@
+"use client";
+
 import VerifyForm from "@/app/forms/auth/verifyForm";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { selectPhoneVerifyToken, updatePhoneVerifyToken } from "@/app/store/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { NextPageWithLayout } from "@/pages/_app";
-import GuestLayout from "@/app/components/layout/guestPanelLayout";
 
-const VerifyLogin: NextPageWithLayout = () => {
+const VerifyLogin = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
+
   const clearPhoneVerifyToken = () => {
     dispatch(updatePhoneVerifyToken(undefined));
   };
@@ -18,14 +19,21 @@ const VerifyLogin: NextPageWithLayout = () => {
   console.log(token);
 
   useEffect(() => {
-    router.beforePopState(() => {
-      clearPhoneVerifyToken();
-      return true;
-    });
+    // in Next.js 13 this method not exist, these lines are for when back in page, token remove
+    // and by next and back page, remove token for better security
+    // router.beforePopState(() => {
+    //   clearPhoneVerifyToken();
+    //   return true;
+    // });
 
     if (token === undefined) {
       router.push("/auth/login");
     }
+
+    // in strictMode for react this line run in mount and unmount page too, while we need run this code in unmount only
+    return () => {
+      clearPhoneVerifyToken();
+    };
   }, [token]);
 
   return (
@@ -48,7 +56,5 @@ const VerifyLogin: NextPageWithLayout = () => {
     </div>
   );
 };
-
-VerifyLogin.getLayout = (page) => <GuestLayout>{page}</GuestLayout>;
 
 export default VerifyLogin;

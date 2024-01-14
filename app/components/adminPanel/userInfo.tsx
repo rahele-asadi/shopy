@@ -1,8 +1,9 @@
+"use client";
 import { removeLoginToken } from "@/app/helpers/auth";
 import { useAppSelector } from "@/app/hooks";
 // import useAuth from "@/app/hooks/useAuth";
 import { selectUser } from "@/app/store/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const UserInfo = () => {
   // using of useAuth is simpler way to access user data
@@ -21,7 +22,7 @@ const UserInfo = () => {
   return (
     <h2>
       <span>UserName:</span>
-      {user?.name}
+      {user?.user?.name}
       <button onClick={handleLogout}>Logout</button>
     </h2>
   );
